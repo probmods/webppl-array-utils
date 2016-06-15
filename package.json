@@ -6,7 +6,7 @@
     "wppl": ["src/library.wppl"]
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "webppl --require . tests/main.wppl"
   },
   "repository": {
     "type": "git",

@@ -1,0 +1,188 @@
+var test = function(name, fn) {
+  var result = fn()();
+  var passed = result[0];
+  var showFailureMsg = result[1];
+  console.log(passed ? 'PASS' : 'FAIL', '|', name);
+  if (!passed) {
+    showFailureMsg();
+  }
+};
+
+var eq = function(a, b) {
+  return function() {
+    if (_.isEqual(a, b)) {
+      return [true];
+    } else {
+      return [false, function() {
+        console.log('Not equal:');
+        console.log(a);
+        console.log(b);
+      }];
+    }
+  };
+};
+
+test('ringForward - empty array', function() {
+  eq(ringForward([], 1), []);
+});
+
+test('ringForward - identity', function() {
+  eq(ringForward([0, 1, 2], 0), [0, 1, 2]);
+});
+
+test('ringForward', function() {
+  eq(ringForward([0, 1, 2], 1), [2, 0, 1]);
+});
+
+
+test('ringBackward - empty array', function() {
+  eq(ringBackward([], 1), []);
+});
+
+test('ringBackward - identity', function() {
+  eq(ringBackward([0, 1, 2], 0), [0, 1, 2]);
+});
+
+test('ringBackward', function() {
+  eq(ringBackward([0, 1, 2], 1), [1, 2, 0]);
+});
+
+
+test('mapPairs2 - empty', function() {
+  eq(mapPairs2(idF, [], []), []);
+});
+
+test('mapPairs2 - idF', function() {
+  eq(mapPairs2(plus, ['a', 'b'], ['c', 'd']), ['ac', 'ad', 'bc', 'bd']);
+});
+
+
+test('mapPairsC - empty', function() {
+  eq(mapPairsC(idF, []), []);
+});
+
+test('mapPairsC', function() {
+  eq(mapPairsC(plus, ['a', 'b', 'c']), ['ab', 'ac', 'bc']);
+});
+
+
+test('mapPairsNC - empty', function() {
+  eq(mapPairsNC(idF, []), []);
+});
+
+test('mapPairsNC', function() {
+  eq(mapPairsNC(plus, ['a', 'b', 'c']), ['ab', 'ac', 'ba', 'bc', 'ca', 'cb']);
+});
+
+
+test('insertAt - first', function() {
+  eq(insertAt([0, 1, 2], 0, 'x'), ['x', 0, 1, 2]);
+});
+
+test('insertAt - interior', function() {
+  eq(insertAt([0, 1, 2], 1, 'x'), [0, 'x', 1, 2]);
+});
+
+test('insertAt - last', function() {
+  eq(insertAt([0, 1, 2], 2, 'x'), [0, 1, 'x', 2]);
+});
+
+test('insertAt - after', function() {
+  eq(insertAt([0, 1, 2], 3, 'x'), [0, 1, 2, 'x']);
+});
+
+
+test('removeAt - first', function() {
+  eq(removeAt([0, 1, 2], 0), [1, 2]);
+});
+
+test('removeAt - interior', function() {
+  eq(removeAt([0, 1, 2], 1), [0, 2]);
+});
+
+test('removeAt - last', function() {
+  eq(removeAt([0, 1, 2], 2), [0, 1]);
+});
+
+test('removeAt - after', function() {
+  eq(removeAt([0, 1, 2], 3), [0, 1, 2]);
+});
+
+
+test('replaceAt - first', function() {
+  eq(replaceAt([0, 1, 2], 0, 'x'), ['x', 1, 2]);
+});
+
+test('replaceAt - interior', function() {
+  eq(replaceAt([0, 1, 2], 1, 'x'), [0, 'x', 2]);
+});
+
+test('replaceAt - last', function() {
+  eq(replaceAt([0, 1, 2], 2, 'x'), [0, 1, 'x']);
+});
+
+test('replaceAt - after', function() {
+  eq(replaceAt([0, 1, 2], 3, 'x'), [0, 1, 2, 'x']);
+});
+
+
+test('drop - empty', function() {
+  eq(drop(1, []), []);
+});
+
+test('drop - none', function() {
+  eq(drop(0, [0, 1, 2]), [0, 1, 2]);
+});
+
+test('drop - some', function() {
+  eq(drop(1, [0, 1, 2]), [1, 2]);
+});
+
+test('drop - all', function() {
+  eq(drop(3, [0, 1, 2]), []);
+});
+
+
+test('take - empty', function() {
+  eq(take(1, []), []);
+});
+
+test('take - none', function() {
+  eq(take(0, [0, 1, 2]), []);
+});
+
+test('take - some', function() {
+  eq(take(1, [0, 1, 2]), [0]);
+});
+
+test('take - all', function() {
+  eq(take(3, [0, 1, 2]), [0, 1, 2]);
+});
+
+
+test('dropWhile - trueF', function() {
+  eq(dropWhile(trueF, [0, 1, 2]), []);
+});
+
+test('dropWhile - falseF', function() {
+  eq(dropWhile(falseF, [0, 1, 2]), [0, 1, 2]);
+});
+
+test('dropWhile', function() {
+  eq(dropWhile(function(x) { return x < 2; }, [0, 1, 2, 0]), [2, 0]);
+});
+
+
+test('takeWhile - trueF', function() {
+  eq(takeWhile(trueF, [0, 1, 2]), [0, 1, 2]);
+});
+
+test('takeWhile - falseF', function() {
+  eq(takeWhile(falseF, [0, 1, 2]), []);
+});
+
+test('takeWhile', function() {
+  eq(takeWhile(function(x) { return x < 2; }, [0, 1, 2, 0]), [0, 1]);
+});
+
+'finished';
