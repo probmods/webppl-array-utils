@@ -55,6 +55,22 @@ var mapPairsNC = function(f, l) {
   return remove(undefined, res);
 };
 
+// sugar for reduce(f, g(init), map(g,ar))
+var mapReduce = function(f, init, g, ar) {
+  // specialized to above reduce
+  return reduce(function(a, b) {return f(g(a), b);},
+                g(init),
+                ar);
+};
+
+// sugar for reduce(f, g(last(ar)), map(g, butLast(ar)))
+var mapReduce1 = function(f, g, ar) {
+  // specialized to above reduce
+  return reduce(function(a, b) {return f(g(a), b);},
+                g(ar[ar.length - 1]),
+                ar.slice(0, -1));
+};
+
 var insertAt = function(ar, i, x) {
   return ar.slice(0, i).concat([x]).concat(ar.slice(i));
 }
