@@ -8,6 +8,8 @@ removed from core WebPPL at version 0.8:
     mapPairs2
     mapPairsC
     mapPairsNC
+    mapReduce
+    mapReduce1
     insertAt
     removeAt
     replaceAt
