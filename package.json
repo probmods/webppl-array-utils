@@ -6,7 +6,7 @@
     "wppl": ["src/library.wppl"]
   },
   "scripts": {
-    "test": "webppl --require . tests/main.wppl"
+    "test": "webppl --require . tests/test.wppl"
   },
   "repository": {
     "type": "git",
